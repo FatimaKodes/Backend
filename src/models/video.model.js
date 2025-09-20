@@ -6,9 +6,9 @@ const videoSchema = new Schema({
         type: String,
         required: true
     },
-    thumbnail: {
-        type: String,
-        required: true
+     thumbnail: {
+        url: { type: String, required: true },
+        public_id: { type: String}
     },
     title: {
         type: String,
@@ -38,4 +38,4 @@ const videoSchema = new Schema({
 
 videoSchema.plugin(mongooseAggregatePaginate)
 
-export const Video = Schema.model('Video', videoSchema)
+export const Video = mongoose.model('Video', videoSchema)
