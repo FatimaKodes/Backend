@@ -2,8 +2,11 @@ import mongoose, {Schema} from "mongoose";
 
 const tweetSchema = new Schema({
     content: {
-        type: String,
-        required: true
+        message: String,
+        image1: Object,
+        image2: Object,
+        gif: Object,
+        video: Object
     },
     owner: {
         type: mongoose.Types.ObjectId,
