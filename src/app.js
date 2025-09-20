@@ -14,7 +14,15 @@ app.use(express.urlencoded({extended: true, limit: '16kb'}))
 app.use(express.static('public'))
 
 import registerRoute from './routes/register.route.js'
+import videosRoute from './routes/videos.route.js'
+import playlistRoute from './routes/playlist.route.js'
+import tweetRoute from './routes/tweet.route.js'
+import subscriptionRoute from './routes/subscription.route.js'
 
 app.use('/api/v1/users', registerRoute)
+app.use('/api/v1/videos', videosRoute)
+app.use('/api/v1/playlist', playlistRoute)
+app.use('/api/v1/tweet', tweetRoute)
+app.use('/api/v1/subscription', subscriptionRoute)
 
 export default app;
