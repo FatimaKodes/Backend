@@ -5,6 +5,7 @@ import {uploadOnCloudinary} from '../utils/cloudinary.js'
 import {ApiResponse} from '../utils/ApiResponse.js'
 import jwt from 'jsonwebtoken'
 import { v2 as cloudinary } from "cloudinary"
+import mongoose from 'mongoose'
 
 const generateAccessAndRefreshToken = async(userId) => {
     try{
@@ -149,7 +150,7 @@ const userLogin = asyncHandler(async (req, res) => {
             req.user._id,
             {
                 $unset: {
-                    refreshToken: undefined
+                    refreshToken: 1
                 }
             },
             {
@@ -196,15 +197,15 @@ const userLogin = asyncHandler(async (req, res) => {
                 secure: true
             }
     
-            const {accessToken, newRefreshToken} = await generateAccessAndRefreshToken(user._id)
-    
+            const {accessToken, refreshToken} = await generateAccessAndRefreshToken(user._id)
+            
             return res.status(200)
             .cookie('accessToken', accessToken, options)
-            .cookie('refreshToken', newRefreshToken, options)
+            .cookie('refreshToken', refreshToken, options)
             .json(
                 new ApiResponse(
                     200,
-                    {accessToken, refreshToken: newRefreshToken},
+                    {accessToken, refreshToken},
                     'Access Token refreshed'
                 )
             )
@@ -261,7 +262,7 @@ const userLogin = asyncHandler(async (req, res) => {
             {
                 new : true
             }
-        )
+        ).select('-password -refreshToken')
 
         return res
         .status(200)
@@ -300,7 +301,7 @@ const userLogin = asyncHandler(async (req, res) => {
             {
                 new: true
             }
-        ).select('-password')
+        ).select('-password -refreshToken')
 
         return res
         .status(200)
@@ -339,7 +340,7 @@ const userLogin = asyncHandler(async (req, res) => {
             {
                 new: true
             }
-        ).select('-password')
+        ).select('-password -refreshToken')
 
         return res
         .status(200)
@@ -387,7 +388,7 @@ const userLogin = asyncHandler(async (req, res) => {
                     },
                     isSubscribed: {
                         $cond: {
-                            if: {in: [req.user._id, '$subscribers.subscriber']},
+                            if: {$in: [req.user._id, '$subscribers.subscriber']},
                             then: true,
                             else: false
                         }

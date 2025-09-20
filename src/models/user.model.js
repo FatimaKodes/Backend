@@ -25,11 +25,12 @@ const userSchema = new Schema({
         index: true
     },
     avatar: {
-        type: String,
-        required: true
+        url: { type: String, required: true },
+        public_id: { type: String}
     },
     coverImage: {
-        type: String,
+        url: { type: String, required: true },
+        public_id: { type: String}
     },
     watchHistory:[ {
         type: Schema.Types.ObjectId,
@@ -75,7 +76,7 @@ userSchema.methods.generateRefreshToken = function() {
     },
     process.env.REFRESH_TOKEN_SECRET,
     {
-        expiresIn: process.env.ACCESS_REFRESH_EXPIRY
+        expiresIn: process.env.REFRESH_TOKEN_EXPIRY
     }
 )
 }
