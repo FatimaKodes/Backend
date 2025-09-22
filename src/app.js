@@ -18,11 +18,15 @@ import videosRoute from './routes/videos.route.js'
 import playlistRoute from './routes/playlist.route.js'
 import tweetRoute from './routes/tweet.route.js'
 import subscriptionRoute from './routes/subscription.route.js'
+import likesRoute from './routes/likes.route.js'
+import commentRoute from './routes/comment.route.js'
 
 app.use('/api/v1/users', registerRoute)
 app.use('/api/v1/videos', videosRoute)
 app.use('/api/v1/playlist', playlistRoute)
 app.use('/api/v1/tweet', tweetRoute)
 app.use('/api/v1/subscription', subscriptionRoute)
+app.use('/api/v1/likes', likesRoute)
+app.use('/api/v1/comment', commentRoute)
 
 export default app;
